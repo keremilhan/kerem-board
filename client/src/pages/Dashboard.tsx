@@ -168,15 +168,10 @@ const Dashboard = () => {
 
             console.error(error);
         }
-    }, [accessToken, dispatch, endDateString, selectionRange.endDate, selectionRange.startDate, startDateString]);
+    }, [accessToken, dispatch, endDateString, selectionRange.endDate, selectionRange.startDate, startDateString, REACT_APP_API_BASE_URL]);
 
     const isLoadingTaskCard = tasks.find(task => task.loading === true);
-    const mount = useRef(false);
     useEffect(() => {
-        if (!mount.current) {
-            mount.current = true;
-            return;
-        }
         handleSelectDate();
     }, [selectionRange, handleSelectDate]);
 
