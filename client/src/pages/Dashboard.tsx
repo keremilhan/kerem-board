@@ -47,6 +47,11 @@ const Dashboard = () => {
             window.removeEventListener('resize', resizeListener);
         };
     }, []);
+    const today = new Date(new Date(new Date().setHours(new Date().getHours())).setUTCHours(0, 0, 0, 0));
+    useEffect(() => {
+        handleFetchTasksByDate(today, today);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     const dispatch = useAppDispatch();
     const [selectionRange, setSelectionRange] = useState({
         startDate: new Date(new Date(new Date().setHours(new Date().getHours())).setUTCHours(0, 0, 0, 0)),
@@ -183,10 +188,6 @@ const Dashboard = () => {
     };
 
     const isLoadingTaskCard = tasks.find(task => task.loading === true);
-
-    useEffect(() => {
-        handleFetchTasksByDate(selectionRange.startDate, selectionRange.endDate);
-    }, []);
 
     const handleTaskCounts = (action: 'decrement' | 'increment', date: string) => {
         if (action !== 'decrement' && action !== 'increment') {
