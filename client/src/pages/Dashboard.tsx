@@ -48,10 +48,7 @@ const Dashboard = () => {
         };
     }, []);
     const today = new Date(new Date(new Date().setHours(new Date().getHours())).setUTCHours(0, 0, 0, 0));
-    useEffect(() => {
-        handleFetchTasksByDate(today, today);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+
     const dispatch = useAppDispatch();
     const [selectionRange, setSelectionRange] = useState({
         startDate: new Date(new Date(new Date().setHours(new Date().getHours())).setUTCHours(0, 0, 0, 0)),
@@ -97,12 +94,12 @@ const Dashboard = () => {
     // Combine filteredDefaultStaticRanges with customStaticRanges
     const allStaticRanges = [...customStaticRanges, ...filteredDefaultStaticRanges];
 
-    const handleSelectRange = (ranges: any) => {
+    const handleSelectRange = async (ranges: any) => {
         setShowCalendar(false);
         const hoursToAdd = 3;
         ranges.selection.endDate.setHours(ranges.selection.endDate.getHours() + hoursToAdd);
         setSelectionRange(ranges.selection);
-        handleFetchTasksByDate(ranges.selection.startDate, ranges.selection.endDate);
+        await handleFetchTasksByDate(ranges.selection.startDate, ranges.selection.endDate);
     };
 
     const fetchTaskCounts = async () => {
@@ -186,6 +183,17 @@ const Dashboard = () => {
             console.error(error);
         }
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                await handleFetchTasksByDate(today, today);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
 
     const isLoadingTaskCard = tasks.find(task => task.loading === true);
 
