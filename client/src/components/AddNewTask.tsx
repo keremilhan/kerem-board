@@ -35,6 +35,7 @@ const AddNewTask: React.FC<{
     const tasks = useAppSelector(selectTasks);
     const isLoadingTaskCard = tasks.find(task => task.loading === true);
     const dispatch = useAppDispatch();
+    const { REACT_APP_API_BASE_URL } = process.env;
     const addInput = () => {
         if (subTaskInputs.length < 4) {
             const newInputs = [...subTaskInputs, { task: '', done: false }];
@@ -88,7 +89,7 @@ const AddNewTask: React.FC<{
                 const updatedTasks = tasks.map(task1 => (task1._id === task._id ? { ...task1, loading: true } : task1));
                 dispatch(setTasks(updatedTasks));
                 const response = await axios.patch(
-                    `http://localhost:3000/api/v1/tasks/${task._id}`,
+                    `${REACT_APP_API_BASE_URL}/api/v1/tasks/${task._id}`,
                     { taskName: taskInput, subTasks: subTaskInputs.filter(subTask => subTask.task !== ''), date, estimatedTime },
                     {
                         headers: {
@@ -153,7 +154,7 @@ const AddNewTask: React.FC<{
                 }
 
                 const response = await axios.post(
-                    'http://localhost:3000/api/v1/tasks',
+                    `${REACT_APP_API_BASE_URL}/api/v1/tasks`,
                     { taskName: taskInput, subTasks: subTaskInputs.filter(subTask => subTask.task !== ''), date, estimatedTime, orderIndex: tasks.filter(task => task.status === 'open').length },
                     {
                         headers: {

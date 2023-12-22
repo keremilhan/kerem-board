@@ -27,6 +27,7 @@ const TaskCard: React.FC<{
     const dispatch = useAppDispatch();
     const { accessToken } = useAppSelector(selectAuth);
     const tasks = useAppSelector(selectTasks);
+    const { REACT_APP_API_BASE_URL } = process.env;
 
     const handleSelect = async (event: any) => {
         const loadingTask: Task = {
@@ -46,7 +47,7 @@ const TaskCard: React.FC<{
         toggleCardOpen(task._id);
         try {
             const response = await axios.patch(
-                `http://localhost:3000/api/v1/tasks/${task._id}`,
+                `${REACT_APP_API_BASE_URL}/api/v1/tasks/${task._id}`,
                 { status: event.target.value },
                 {
                     headers: {
@@ -81,7 +82,7 @@ const TaskCard: React.FC<{
         dispatch(setTasks(updatedTasks)); // Update the state with the modified tasks array
         try {
             const response = await axios.patch(
-                `http://localhost:3000/api/v1/tasks/${taskId}`,
+                `${REACT_APP_API_BASE_URL}/api/v1/tasks/${taskId}`,
                 { subTasks: updatedSubTasks },
                 {
                     headers: {
