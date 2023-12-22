@@ -39,7 +39,8 @@ app.use(limiter);
 const delayMiddleware = require('./middleware/delay');
 
 //routes
-app.use('/api/v1/auth', delayMiddleware(1000), authRouter);
+// Delay middleware for development purposes
+// app.use('/api/v1/auth', delayMiddleware(1000), authRouter);
 app.use('/api/v1/tasks', [authenticateUser, delayMiddleware(1000)], tasksRouter);
 app.use('/api/v1/taskCount', [authenticateUser, delayMiddleware(1000)], taskCountRouter);
 

@@ -22,3 +22,5 @@ export interface TaskCount {
     date: string;
     taskCount: number;
 }
+
+export type Column = 'open' | 'in progress' | 'done';

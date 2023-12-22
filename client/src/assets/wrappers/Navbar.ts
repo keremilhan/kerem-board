@@ -6,7 +6,7 @@ const Wrapper = styled.nav`
     align-items: center;
     padding: 16px 22px;
     background-color: rgba(59, 130, 246, 0.6);
-    @media screen and (max-width: 515px) {
+    @media screen and (max-width: 600px) {
         flex-direction: column;
         gap: 20px;
     }
@@ -49,7 +49,6 @@ const Wrapper = styled.nav`
             filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
             border-radius: 10px;
             background: var(--blue, #3b82f6);
-
             color: #fff;
             font-family: Roboto Condensed;
             font-size: 20px;
@@ -60,6 +59,10 @@ const Wrapper = styled.nav`
             text-transform: capitalize;
             p {
                 margin: 0;
+            }
+            @media screen and (max-width: 600px) {
+                padding: 7.5px 15px;
+                font-size: 16px;
             }
         }
         .dropdown-logout-container {
@@ -84,6 +87,15 @@ const Wrapper = styled.nav`
             cursor: pointer;
             p {
                 margin: 0;
+            }
+            @media screen and (max-width: 600px) {
+                padding: 7.5px 15px;
+                font-size: 16px;
+
+                svg {
+                    width: 20px;
+                    height: 20px;
+                }
             }
         }
     }

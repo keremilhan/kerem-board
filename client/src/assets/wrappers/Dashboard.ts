@@ -77,6 +77,12 @@ const Wrapper = styled.div`
         justify-content: space-between;
         align-items: flex-end;
         gap: 5px;
+        @media screen and (max-width: 600px) {
+            svg {
+                width: 30px;
+                height: 30px;
+            }
+        }
         .show-calendar {
             position: absolute;
             top: 0;
@@ -133,7 +139,19 @@ const Wrapper = styled.div`
             letter-spacing: 0.1px;
             margin: 0;
             align-self: center;
+            @media screen and (max-width: 600px) {
+                font-size: 16px;
+            }
         }
+    }
+    .columns-select {
+        width: fit-content;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        cursor: pointer;
+        /* background-color: lightgray; */
+        padding: 5px 10px;
     }
     .board {
         /* background-color: #bfdbfe; */
@@ -145,6 +163,9 @@ const Wrapper = styled.div`
         text-align: center;
         padding: 0 22px;
         gap: 6px;
+        @media screen and (max-width: 1000px) {
+            flex-direction: column;
+        }
         .task-column {
             width: 100%;
             padding: 18px;
