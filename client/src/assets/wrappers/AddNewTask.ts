@@ -273,6 +273,14 @@ const Wrapper = styled.div`
         background-color: #14a44d;
         letter-spacing: 0.1em;
         color: #fff;
+        @media screen and (max-width: 600px) {
+            font-size: 12px;
+            padding: 8px;
+            svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
     }
 `;
 

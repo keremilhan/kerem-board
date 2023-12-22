@@ -43,8 +43,6 @@ const start = async () => {
                 user: userId,
                 taskCounts: mergedTaskCount.taskCounts,
             });
-
-            console.log(newMergedTaskCount, 'newMergedTaskCount');
             await newMergedTaskCount.save();
             console.log('Merged TaskCounts created successfully.');
         }

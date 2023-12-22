@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SubTask, Task } from '../types/common';
 import Wrapper from '../assets/wrappers/TaskCard';
-import { MdModeEdit } from 'react-icons/md';
-import { FaTrashAlt } from 'react-icons/fa';
 import axios from 'axios';
 import customToast from './customToast';
 import { selectTasks, setTasks } from '../redux/slices/tasks';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectAuth } from '../redux/slices/auth';
-import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
 import { RxDragHandleDots2 } from 'react-icons/rx';
 import { FiEdit } from 'react-icons/fi';
 import { FaTrash } from 'react-icons/fa';
@@ -27,33 +24,11 @@ const TaskCard: React.FC<{
     setEditTaskModuleOpen: (param: boolean) => void;
     setUpdateId: (param: string) => void;
 }> = ({ handleShowDeleteModule, cardStates, toggleCardOpen, refProp, draggableProps, dragHandleProps, setEditTaskModuleOpen, setUpdateId, task, dashboardDate }) => {
-    // const [updateId, setUpdateId] = useState('');
-    // const [cardOpen, setCardOpen] = useState(false);
-    // const [editTaskModuleOpen, setEditTaskModuleOpen] = useState(false);
     const dispatch = useAppDispatch();
-    const { userName, accessToken } = useAppSelector(selectAuth);
+    const { accessToken } = useAppSelector(selectAuth);
     const tasks = useAppSelector(selectTasks);
-    console.log(dashboardDate, 'dashboardDate | taskCard');
-
-    // const handleDelete = async () => {
-    //     try {
-    //         const response = await axios.delete(`http://localhost:3000/api/v1/tasks/${task._id}`, {
-    //             headers: {
-    //                 Authorization: `Bearer ${accessToken}`,
-    //             },
-    //         });
-    //         dispatch(setTasks(tasks.filter((el: any) => el._id !== task._id)));
-    //         handleTaskCounts('decrement', dashboardDate.toISOString());
-    //         console.log(response, 'response delete');
-    //     } catch (error: any) {
-    //         customToast(error.response.data.msg, 'error');
-
-    //         console.error(error);
-    //     }
-    // };
 
     const handleSelect = async (event: any) => {
-        console.log(event.target.value, 'status');
         const loadingTask: Task = {
             _id: 'loading-card',
             taskName: '',
@@ -79,9 +54,7 @@ const TaskCard: React.FC<{
                     },
                 }
             );
-            console.log(response, ' response.data.task');
             const updatedTasks = tasks.map((obj: any) => (obj._id === task._id ? { ...obj, status: event.target.value } : obj));
-            // const newTask = { _id: response.data.task._id, taskName: response.data.task.taskName, subTasks: response.data.task.subTasks, status: response.data.task.status };
             dispatch(setTasks(updatedTasks));
         } catch (error: any) {
             const updatedTasks = tasks.filter(task => task._id !== 'loading-card');
@@ -143,6 +116,9 @@ const TaskCard: React.FC<{
             customToast(error.response.data.msg, 'error');
 
             console.error(error);
+
+            const updatedTasks = tasks.map(task => (task._id === taskId ? { ...task, subTaskLoading: undefined } : task));
+            dispatch(setTasks(updatedTasks)); // Update the state with the modified tasks array
         }
     };
     return (

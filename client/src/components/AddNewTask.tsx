@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Wrapper from '../assets/wrappers/AddNewTask';
 import { BsPlusSquare } from 'react-icons/bs';
 import { TbTrash } from 'react-icons/tb';
@@ -12,8 +12,8 @@ import { SubTask, Task } from '../types/common';
 import { AiTwotoneCalendar } from 'react-icons/ai';
 import { Calendar } from 'react-date-range';
 import { AiOutlinePlus } from 'react-icons/ai';
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 import moment from 'moment';
 
 const AddNewTask: React.FC<{
@@ -31,21 +31,14 @@ const AddNewTask: React.FC<{
     const [showCalendar, setShowCalendar] = useState(false);
     const [date, setDate] = useState(task ? task.date : startDate);
     const [focusedInputIndex, setFocusedInputIndex] = useState<number | null>(null);
-
     const { accessToken } = useAppSelector(selectAuth);
-
-    console.log(startDate);
-
     const tasks = useAppSelector(selectTasks);
     const isLoadingTaskCard = tasks.find(task => task.loading === true);
     const dispatch = useAppDispatch();
     const addInput = () => {
         if (subTaskInputs.length < 4) {
-            // Add a new input to the subTaskInputs array
             const newInputs = [...subTaskInputs, { task: '', done: false }];
             setSubTaskInputs(newInputs);
-
-            // Set focus to the newly added input
             setFocusedInputIndex(newInputs.length - 1);
         }
     };
@@ -53,8 +46,6 @@ const AddNewTask: React.FC<{
     const deleteInput = (indexToDelete: number) => {
         const newInputs = subTaskInputs.filter((_, index) => index !== indexToDelete);
         setSubTaskInputs(newInputs);
-
-        // Remove the input ref and clear the focus
         setFocusedInputIndex(null);
     };
 
@@ -105,14 +96,8 @@ const AddNewTask: React.FC<{
                         },
                     }
                 );
-                console.log(response.data.task, ' response.data.task');
                 const newTask: Task = response.data.task;
-                console.log(new Date(newTask.date).getTime());
                 if (endDate.getTime() === startDate.getTime()) {
-                    console.log('buraya girdi');
-
-                    console.log(new Date(newTask.date).getTime());
-                    console.log(startDate.getTime());
                     if (new Date(newTask.date).getTime() === startDate.getTime()) {
                         const updatedTasks = tasks.map(task => (task._id === newTask._id ? { ...newTask } : task));
                         dispatch(setTasks(updatedTasks));
@@ -129,8 +114,6 @@ const AddNewTask: React.FC<{
                         dispatch(setTasks(updatedTasks));
                     }
                 }
-                console.log(task.date);
-
                 handleTaskCounts('decrement', new Date(task.date).toISOString());
                 handleTaskCounts('increment', date.toISOString());
                 closeModule();
@@ -180,9 +163,6 @@ const AddNewTask: React.FC<{
                 );
                 const newTask = response.data.task;
                 if (endDate.getTime() === startDate.getTime()) {
-                    console.log(new Date(newTask.date).getTime());
-                    console.log(startDate.getTime());
-
                     if (new Date(newTask.date).getTime() === startDate.getTime()) {
                         dispatch(setTasks([...tasks, newTask]));
                     }
@@ -225,8 +205,6 @@ const AddNewTask: React.FC<{
             setEditTaskModuleOpen(false);
         }
     };
-    console.log(focusedInputIndex);
-
     return (
         <Wrapper>
             {!task && (

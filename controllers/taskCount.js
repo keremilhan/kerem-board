@@ -1,13 +1,12 @@
 const TaskCount = require('../models/TaskCount');
 const { StatusCodes } = require('http-status-codes');
 
-//for specific dates
+// for specific dates
 const getTaskCount = async (req, res) => {
     const {
         user: { userId },
         body: { date },
     } = req;
-    console.log(date, 'getTaskCount date');
     const startDate = date[0];
     const endDate = date[1];
 

@@ -46,7 +46,6 @@ const Register = () => {
             try {
                 const API_ENDPOINT = 'http://localhost:3000/api/v1/auth/login';
                 const response = await axios.post(API_ENDPOINT, formValues);
-                console.log(response, 'response login');
                 customToast('Login successful. Welcome to the app!', 'success');
                 dispatch(loginSuccess({ isAuthenticated: true, userName: response.data.user.name, accessToken: response.data.user.token, email: response.data.user.email }));
                 setTimeout(() => {
@@ -95,7 +94,7 @@ const Register = () => {
         if (isAuthenticated) {
             navigate('/dashboard');
         }
-    }, []);
+    }, [isAuthenticated, navigate]);
 
     return (
         <Wrapper>

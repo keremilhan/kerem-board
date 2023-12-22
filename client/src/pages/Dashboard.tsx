@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Wrapper from '../assets/wrappers/Dashboard';
 import Navbar from '../components/Navbar';
 import { AiTwotoneCalendar } from 'react-icons/ai';
@@ -7,16 +7,15 @@ import { selectAuth } from '../redux/slices/auth';
 import axios from 'axios';
 import customToast, { ERRORS } from '../components/customToast';
 import moment from 'moment';
-import { Task, TaskCount } from '../types/common';
+import { Column, Task, TaskCount } from '../types/common';
 import TaskCard from '../components/TaskCard';
 import AddNewTask from '../components/AddNewTask';
 import { selectTasks, setTasks } from '../redux/slices/tasks';
 import { DateRangePicker, DefinedRangeProps, Preview, Range, defaultStaticRanges } from 'react-date-range';
-
 import { format } from 'date-fns';
 import { Draggable, Droppable, DragDropContext } from 'react-beautiful-dnd';
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 import Loading from '../components/Loading';
 
 const Dashboard = () => {
@@ -29,13 +28,24 @@ const Dashboard = () => {
     const [deleteId, setDeleteId] = useState('');
     const [showLoadingTasksSpinner, setShowLoadingTasksSpinner] = useState(false);
     const [showLoadingTaskCountsSpinner, setShowLoadingTaskCountsSpinner] = useState(false);
-    const [showDeleteSpinner, setShowDeleteSpinner] = useState(false);
-    // const [cardOpen, setCardOpen] = useState(false);
     const [cardStates, setCardStates] = useState({});
-    // const [tasks, setTasks] = useState<Task[]>();
+    const [mobileColumn, setMobileColumn] = useState<Column>('open');
     const tasks = useAppSelector(selectTasks);
-    console.log(tasks);
-    const { isAuthenticated, email } = useAppSelector(selectAuth);
+    const { email } = useAppSelector(selectAuth);
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+    const [screenHeight, setScreenHeight] = useState(window.innerHeight);
+    let verticalMobile = screenWidth <= 1000;
+    let horizontalMobile = screenWidth > 1000 && screenWidth < 1200 && screenHeight < 450;
+    useEffect(() => {
+        const resizeListener = () => {
+            setScreenWidth(window.innerWidth);
+            setScreenHeight(window.innerHeight);
+        };
+        window.addEventListener('resize', resizeListener);
+        return () => {
+            window.removeEventListener('resize', resizeListener);
+        };
+    }, []);
 
     const dispatch = useAppDispatch();
     const [selectionRange, setSelectionRange] = useState({
@@ -60,7 +70,6 @@ const Dashboard = () => {
             range: (props?: DefinedRangeProps): Preview => ({
                 startDate: new Date(),
                 endDate: new Date(),
-                // key: 'today',
                 ...props,
             }),
             isSelected: (range: Range): boolean => range.startDate?.toISOString() === new Date().toISOString(),
@@ -70,7 +79,6 @@ const Dashboard = () => {
             range: (props?: DefinedRangeProps): Preview => ({
                 startDate: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
                 endDate: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
-                // key: 'yesterday',
                 ...props,
             }),
             isSelected: (range: Range): boolean => range.startDate?.toISOString() === new Date(new Date().getTime() - 24 * 60 * 60 * 1000).toISOString(),
@@ -92,13 +100,6 @@ const Dashboard = () => {
     };
 
     const fetchTaskCounts = async () => {
-        //TODO: if we want to send a request for current month
-        // const today = new Date(); // Get the current date
-        // const firstDayOfMonth = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1));
-        // const lastDayOfMonth = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth() + 1, 0));
-        // const formattedFirstDayOfThisMonth = moment(firstDayOfMonth).format('YYYY-MM-DD');
-        // const formattedLastDayOfThisMonth = moment(lastDayOfMonth).format('YYYY-MM-DD');
-
         setShowLoadingTaskCountsSpinner(true);
         try {
             const response = await axios.get('http://localhost:3000/api/v1/taskCount/', {
@@ -107,8 +108,6 @@ const Dashboard = () => {
                 },
             });
             const { taskCounts } = response.data.taskCounts;
-            console.log(taskCounts);
-
             setTaskCounts(
                 taskCounts.map((item: any) => {
                     return { date: item.date, taskCount: item.taskCount };
@@ -124,8 +123,7 @@ const Dashboard = () => {
             customToast(error.response.data.msg, 'error');
         }
     };
-    console.log(taskCounts);
-    const handleSelectDate = async () => {
+    const handleSelectDate = useCallback(async () => {
         setShowLoadingTasksSpinner(true);
         const formattedDate = [moment(selectionRange.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD'), moment(selectionRange.endDate, 'DD/MM/YYYY').format('YYYY-MM-DD')];
         try {
@@ -169,7 +167,7 @@ const Dashboard = () => {
 
             console.error(error);
         }
-    };
+    }, [accessToken, dispatch, endDateString, selectionRange.endDate, selectionRange.startDate, startDateString]);
 
     const isLoadingTaskCard = tasks.find(task => task.loading === true);
     const mount = useRef(false);
@@ -179,14 +177,12 @@ const Dashboard = () => {
             return;
         }
         handleSelectDate();
-    }, [selectionRange]);
+    }, [selectionRange, handleSelectDate]);
 
     const handleTaskCounts = (action: 'decrement' | 'increment', date: string) => {
         if (action !== 'decrement' && action !== 'increment') {
             return;
         }
-        console.log(date);
-
         if (action === 'increment') {
             const taskCountObject = taskCounts.find(item => item.date === date);
             if (taskCountObject) {
@@ -207,8 +203,6 @@ const Dashboard = () => {
             }
         }
     };
-    console.log(taskCounts, 'taskCounts || dashboard');
-
     function customDayContent(day: Date) {
         let extraDot = null;
         const date = moment(day).format('YYYY-MM-DD');
@@ -237,26 +231,20 @@ const Dashboard = () => {
     }
 
     let columns = ['open', 'in progress', 'done'];
+    if (verticalMobile || horizontalMobile) {
+        columns = columns.filter(column => column === mobileColumn);
+    }
 
     function convertTasks(tasks: Task[]) {
-        // Create an empty array to store the converted tasks
         const convertedTasks = [];
-
-        // Loop through each task in the tasks array
         for (let i = 0; i < tasks.length; i++) {
             const task = tasks[i];
-
-            // Create a new object for the converted task
             const convertedTask = {
                 _id: task._id,
-                orderIndex: i, // Use the current index as the orderIndex
+                orderIndex: i,
             };
-
-            // Add the converted task to the convertedTasks array
             convertedTasks.push(convertedTask);
         }
-
-        // Return the convertedTasks array as JSON
         return convertedTasks;
     }
 
@@ -328,20 +316,6 @@ const Dashboard = () => {
             console.error(error);
         }
     };
-
-    // const handleDragStart = (result: any) => {
-    //     console.log('handleDragStart | result', result);
-    //     const {
-    //         source,
-    //         source: { droppableId: sourceDroppableId },
-    //         draggableId,
-    //     } = result;
-    //     // const tasksInTargetColumn = tasks.filter(task => task.status === targetDroppableId);
-    //     //     const tasksNotInTargetColumn = tasks.filter(task => task.status !== targetDroppableId);
-
-    //     const filteredTasks = tasks.filter(task => task._id !== draggableId);
-    //     dispatch(setTasks(filteredTasks));
-    // };
     const toggleCardOpen = (cardId: string) => {
         setCardStates((prevState: any) => ({
             ...prevState,
@@ -363,7 +337,6 @@ const Dashboard = () => {
             });
             dispatch(setTasks(tasks.filter((el: any) => el._id !== taskId)));
             handleTaskCounts('decrement', date.toISOString());
-            console.log(response, 'response delete');
         } catch (error: any) {
             dispatch(setTasks(tasks.map((el: any) => (el._id === taskId ? { ...el, loading: false } : el))));
             if (error.response.status === 429) {
@@ -378,6 +351,10 @@ const Dashboard = () => {
         dispatch(setTasks(tasks.map((el: any) => (el._id === taskId ? { ...el, loading: false } : el))));
         setShowDeleteModule(true);
         setDeleteId(taskId);
+    };
+
+    const handleSelectMobileColumn = (e: any) => {
+        setMobileColumn(e.target.value);
     };
 
     return (
@@ -442,7 +419,15 @@ const Dashboard = () => {
                                 {provided => (
                                     <div id={columnId} {...provided.droppableProps} ref={provided.innerRef} className="task-column">
                                         <div className="heading-container">
-                                            <h2 className="column-heading">{columnId}</h2>
+                                            {verticalMobile || horizontalMobile ? (
+                                                <select className="columns-select" value={mobileColumn} name="columns" id="columns-select" onChange={handleSelectMobileColumn}>
+                                                    <option value="open">Open</option>
+                                                    <option value="in progress">In Progress</option>
+                                                    <option value="done">Done</option>
+                                                </select>
+                                            ) : (
+                                                <h2 className="column-heading">{columnId}</h2>
+                                            )}
                                             <div className="info-sticker">
                                                 {tasks?.filter((obj: any) => obj.status === columnId).length} {tasks?.filter((obj: any) => obj.status === columnId).length > 1 ? 'tasks' : 'task'}{' '}
                                                 {tasks
