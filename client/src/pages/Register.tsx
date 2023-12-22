@@ -70,7 +70,8 @@ const Register = () => {
             password: 'secret',
         };
         try {
-            const API_ENDPOINT = `${REACT_APP_API_BASE_URL}/api/v1/auth/login`;
+            // const API_ENDPOINT = `${REACT_APP_API_BASE_URL}/api/v1/auth/login`;
+            const API_ENDPOINT = `https://kerem-board-app.onrender.com/api/v1/auth/login`;
             const response = await axios.post(API_ENDPOINT, testUser);
             customToast('Login successful. Welcome to the app!', 'success');
             dispatch(loginSuccess({ isAuthenticated: true, userName: response.data.user.name, accessToken: response.data.user.token, email: response.data.user.email }));
