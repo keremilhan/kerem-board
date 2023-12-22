@@ -39,10 +39,10 @@ app.use(limiter);
 const delayMiddleware = require('./middleware/delay');
 
 //routes
-// Delay middleware for development purposes
-// app.use('/api/v1/auth', delayMiddleware(1000), authRouter);
-app.use('/api/v1/tasks', [authenticateUser, delayMiddleware(1000)], tasksRouter);
-app.use('/api/v1/taskCount', [authenticateUser, delayMiddleware(1000)], taskCountRouter);
+// You can add delay middleware for development purposes
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/tasks', authenticateUser, tasksRouter);
+app.use('/api/v1/taskCount', authenticateUser, taskCountRouter);
 
 // for other routes, serve index.html from the client(react application)
 app.get('*', (req, res) => {
