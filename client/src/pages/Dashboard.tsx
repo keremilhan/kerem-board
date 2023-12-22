@@ -31,6 +31,7 @@ const Dashboard = () => {
     const [cardStates, setCardStates] = useState({});
     const [mobileColumn, setMobileColumn] = useState<Column>('open');
     const tasks = useAppSelector(selectTasks);
+    const { REACT_APP_API_BASE_URL } = process.env;
     const { email } = useAppSelector(selectAuth);
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const [screenHeight, setScreenHeight] = useState(window.innerHeight);
@@ -102,7 +103,7 @@ const Dashboard = () => {
     const fetchTaskCounts = async () => {
         setShowLoadingTaskCountsSpinner(true);
         try {
-            const response = await axios.get('http://localhost:3000/api/v1/taskCount/', {
+            const response = await axios.get(`${REACT_APP_API_BASE_URL}/api/v1/taskCount/`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -128,7 +129,7 @@ const Dashboard = () => {
         const formattedDate = [moment(selectionRange.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD'), moment(selectionRange.endDate, 'DD/MM/YYYY').format('YYYY-MM-DD')];
         try {
             const response = await axios.post(
-                'http://localhost:3000/api/v1/tasks/get',
+                `${REACT_APP_API_BASE_URL}/api/v1/tasks/get`,
                 { date: formattedDate },
                 {
                     headers: {
@@ -299,7 +300,7 @@ const Dashboard = () => {
             dispatch(setTasks([...tasksNotInTargetColumn, ...orderUpdatedTasksInColumn]));
 
             const response = await axios.patch(
-                `http://localhost:3000/api/v1/tasks/order`,
+                `${REACT_APP_API_BASE_URL}/api/v1/tasks/order`,
                 { updatedTasks },
                 {
                     headers: {
@@ -330,7 +331,7 @@ const Dashboard = () => {
         }
         dispatch(setTasks(tasks.map((el: any) => (el._id === taskId ? { ...el, loading: true } : el))));
         try {
-            const response = await axios.delete(`http://localhost:3000/api/v1/tasks/${taskId}`, {
+            const response = await axios.delete(`${REACT_APP_API_BASE_URL}/api/v1/tasks/${taskId}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },

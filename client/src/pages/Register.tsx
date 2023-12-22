@@ -20,6 +20,7 @@ const Register = () => {
     const [formValues, setFormValues] = useState(initialState);
     const dispatch = useAppDispatch();
     const { userName, isAuthenticated } = useAppSelector(selectAuth);
+    const { REACT_APP_API_BASE_URL } = process.env;
 
     const handleChange = (event: any) => {
         setFormValues({ ...formValues, [event.target.name]: event.target.value });
@@ -28,7 +29,7 @@ const Register = () => {
         event.preventDefault();
         if (!isMember) {
             try {
-                const API_ENDPOINT = 'http://localhost:3000/api/v1/auth/register';
+                const API_ENDPOINT = `${REACT_APP_API_BASE_URL}/api/v1/auth/register`;
                 const response = await axios.post(API_ENDPOINT, formValues);
                 customToast('Registration successful. Welcome to the app!', 'success');
                 setIsMember(true);
@@ -44,7 +45,7 @@ const Register = () => {
             }
         } else {
             try {
-                const API_ENDPOINT = 'http://localhost:3000/api/v1/auth/login';
+                const API_ENDPOINT = `${REACT_APP_API_BASE_URL}/api/v1/auth/login`;
                 const response = await axios.post(API_ENDPOINT, formValues);
                 customToast('Login successful. Welcome to the app!', 'success');
                 dispatch(loginSuccess({ isAuthenticated: true, userName: response.data.user.name, accessToken: response.data.user.token, email: response.data.user.email }));
@@ -69,7 +70,7 @@ const Register = () => {
             password: 'secret',
         };
         try {
-            const API_ENDPOINT = 'http://localhost:3000/api/v1/auth/login';
+            const API_ENDPOINT = `${REACT_APP_API_BASE_URL}/api/v1/auth/login`;
             const response = await axios.post(API_ENDPOINT, testUser);
             customToast('Login successful. Welcome to the app!', 'success');
             dispatch(loginSuccess({ isAuthenticated: true, userName: response.data.user.name, accessToken: response.data.user.token, email: response.data.user.email }));
