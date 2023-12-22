@@ -47,11 +47,10 @@ const Dashboard = () => {
             window.removeEventListener('resize', resizeListener);
         };
     }, []);
-
     const dispatch = useAppDispatch();
     const [selectionRange, setSelectionRange] = useState({
-        startDate: new Date(new Date(new Date().setHours(new Date().getHours() + 3)).setUTCHours(0, 0, 0, 0)),
-        endDate: new Date(new Date(new Date().setHours(new Date().getHours() + 3)).setUTCHours(0, 0, 0, 0)),
+        startDate: new Date(new Date(new Date().setHours(new Date().getHours())).setUTCHours(0, 0, 0, 0)),
+        endDate: new Date(new Date(new Date().setHours(new Date().getHours())).setUTCHours(0, 0, 0, 0)),
         key: 'selection',
     });
     const startDateString = selectionRange.startDate.toLocaleDateString('en-GB', {
@@ -98,6 +97,7 @@ const Dashboard = () => {
         const hoursToAdd = 3;
         ranges.selection.endDate.setHours(ranges.selection.endDate.getHours() + hoursToAdd);
         setSelectionRange(ranges.selection);
+        handleFetchTasksByDate(ranges.selection.startDate, ranges.selection.endDate);
     };
 
     const fetchTaskCounts = async () => {
@@ -124,9 +124,9 @@ const Dashboard = () => {
             customToast(error.response.data.msg, 'error');
         }
     };
-    const handleSelectDate = useCallback(async () => {
+    const handleFetchTasksByDate = async (startDate: any, endDate: any) => {
         setShowLoadingTasksSpinner(true);
-        const formattedDate = [moment(selectionRange.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD'), moment(selectionRange.endDate, 'DD/MM/YYYY').format('YYYY-MM-DD')];
+        const formattedDate = [moment(startDate, 'DD/MM/YYYY').format('YYYY-MM-DD'), moment(endDate, 'DD/MM/YYYY').format('YYYY-MM-DD')];
         try {
             const response = await axios.post(
                 `${REACT_APP_API_BASE_URL}/api/v1/tasks/get`,
@@ -143,6 +143,18 @@ const Dashboard = () => {
             }
             const orderedTasks = formattedTasks.sort((a: Task, b: Task) => a.orderIndex - b.orderIndex);
             dispatch(setTasks(orderedTasks));
+
+            const startDateString = startDate.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+            });
+
+            const endDateString = endDate.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+            });
 
             if (response.data.totalTasks > 0) {
                 if (startDateString === endDateString) {
@@ -168,12 +180,13 @@ const Dashboard = () => {
 
             console.error(error);
         }
-    }, [accessToken, dispatch, endDateString, selectionRange.endDate, selectionRange.startDate, startDateString, REACT_APP_API_BASE_URL]);
+    };
 
     const isLoadingTaskCard = tasks.find(task => task.loading === true);
+
     useEffect(() => {
-        handleSelectDate();
-    }, [selectionRange, handleSelectDate]);
+        handleFetchTasksByDate(selectionRange.startDate, selectionRange.endDate);
+    }, []);
 
     const handleTaskCounts = (action: 'decrement' | 'increment', date: string) => {
         if (action !== 'decrement' && action !== 'increment') {
