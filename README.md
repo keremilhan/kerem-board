@@ -4,26 +4,6 @@ Live => https://kerem-board-app.onrender.com
 
 The Kerem Board project is a robust full-stack personal task management application designed to enhance task organization and tracking. Developed using the MERN stack (MongoDB, Express.js, React, Node.js), this application provides an intuitive and dynamic user experience for efficient task management.
 
-## Future Features
-
-### Drag and Drop for Task Status Change
-- Implement the ability for users to change the status of tasks using drag and drop functionality, providing a more interactive and intuitive task management experience.
-
-### User Guidance with Introjs or Driverjs
-- Integrate Introjs or Driverjs to provide onboarding guidance for users, explaining how to use the application effectively and showcasing its key features.
-
-### Use React Portal for Modals
-- Enhance modal functionality by implementing React Portals, ensuring a smooth and efficient rendering of modals in the application.
-
-### User Confirmation Email on Registration
-- Implement a feature to send confirmation emails to users upon registration. Users should be able to complete the registration process by clicking on a confirmation link sent to their email.
-
-### Forgot Password Feature
-- Add a "Forgot Password" feature, allowing users to reset their passwords by providing a secure and user-friendly process.
-
-### User Profile Update
-- Enable registered users to update their names and passwords, providing them with the flexibility to manage their account information.
-
 ## Key Features
 
 ### User Authentication
@@ -76,4 +56,32 @@ The user-friendly interface enhances the overall experience, making it easy for 
   - Included one-time script for syncing the database with dummy data for test users.
 
 Kerem Board project exemplifies the power of the MERN stack in developing a personalized task management solution. The combination of user authentication, dynamic task visualization, and task-focused features provides a comprehensive tool for users to streamline their task management process.
+
+## Future Features
+
+### Drag and Drop for Task Status Change
+- Implement the ability for users to change the status of tasks using drag and drop functionality, providing a more interactive and intuitive task management experience.
+
+### User Guidance with Introjs or Driverjs
+- Integrate Introjs or Driverjs to provide onboarding guidance for users, explaining how to use the application effectively and showcasing its key features.
+
+### Use React Portal for Modals
+- Enhance modal functionality by implementing React Portals, ensuring a smooth and efficient rendering of modals in the application.
+
+### User Confirmation Email on Registration
+- Implement a feature to send confirmation emails to users upon registration. Users should be able to complete the registration process by clicking on a confirmation link sent to their email.
+
+### Forgot Password Feature
+- Add a "Forgot Password" feature, allowing users to reset their passwords by providing a secure and user-friendly process.
+
+### User Profile Update
+- Enable registered users to update their names and passwords, providing them with the flexibility to manage their account information.
+
+### Export Filtered Tasks as Excel or PDF Report
+- Users can generate reports in Excel or PDF format for the tasks that have been filtered, providing a convenient way to analyze and share task data.
+
+### Cross-Platform Compatibility with Mobile App
+- Expand the application's reach by adding a mobile app, ensuring users can access and manage their tasks seamlessly across various platforms.
+
+If you are interested in contributing to the project, especially in improving code quality and implementing these features, please feel free to collaborate. Contributions and suggestions are welcome!
 
