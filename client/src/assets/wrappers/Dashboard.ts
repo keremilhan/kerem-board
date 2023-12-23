@@ -111,6 +111,20 @@ const Wrapper = styled.div`
                 justify-content: center;
                 /* background-color: #39414c; */
                 background-color: #fff;
+                @media screen and (max-width: 600px) {
+                    width: 100% !important;
+                    .rdrCalendarWrapper {
+                        font-size: 9px !important;
+                    }
+                    .rdrDefinedRangesWrapper {
+                        width: fit-content !important;
+                        font-size: 19x !important;
+                    }
+                    .rdrStaticRangeLabel {
+                        padding: 2.5px 5px;
+                    }
+                }
+
                 .close {
                     cursor: pointer;
                     font-size: 16px;

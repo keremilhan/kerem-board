@@ -247,6 +247,7 @@ const AddNewTask: React.FC<{
                                         }
                                     }}
                                     value={estimatedTime ?? ''}
+                                    onFocus={() => setFocusedInputIndex(null)}
                                 />
                             </div>
                             <input
