@@ -75,5 +75,5 @@ The user-friendly interface enhances the overall experience, making it easy for 
 - [x] **Populate Dummy Data**
   - Included one-time script for syncing the database with dummy data for test users.
 
-This Kerem Board project exemplifies the power of the MERN stack in developing a personalized task management solution. The combination of user authentication, dynamic task visualization, and task-focused features provides a comprehensive tool for users to streamline their task management process.
+Kerem Board project exemplifies the power of the MERN stack in developing a personalized task management solution. The combination of user authentication, dynamic task visualization, and task-focused features provides a comprehensive tool for users to streamline their task management process.
 
