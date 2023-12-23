@@ -4,6 +4,26 @@ Live => https://kerem-board-app.onrender.com
 
 The Kerem Board project is a robust full-stack personal task management application designed to enhance task organization and tracking. Developed using the MERN stack (MongoDB, Express.js, React, Node.js), this application provides an intuitive and dynamic user experience for efficient task management.
 
+## Future Features
+
+### Drag and Drop for Task Status Change
+- Implement the ability for users to change the status of tasks using drag and drop functionality, providing a more interactive and intuitive task management experience.
+
+### User Guidance with Introjs or Driverjs
+- Integrate Introjs or Driverjs to provide onboarding guidance for users, explaining how to use the application effectively and showcasing its key features.
+
+### Use React Portal for Modals
+- Enhance modal functionality by implementing React Portals, ensuring a smooth and efficient rendering of modals in the application.
+
+### User Confirmation Email on Registration
+- Implement a feature to send confirmation emails to users upon registration. Users should be able to complete the registration process by clicking on a confirmation link sent to their email.
+
+### Forgot Password Feature
+- Add a "Forgot Password" feature, allowing users to reset their passwords by providing a secure and user-friendly process.
+
+### User Profile Update
+- Enable registered users to update their names and passwords, providing them with the flexibility to manage their account information.
+
 ## Key Features
 
 ### User Authentication
