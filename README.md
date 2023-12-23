@@ -21,6 +21,9 @@ Users can prioritize tasks by changing the positions of tasks within the same co
 ### Date-based Filtering
 The application includes a date-based filtering feature, allowing users to focus on tasks within specific timeframes and enhancing overall productivity.
 
+### Task Count on Calendar
+Before filtering tasks by date, users can view the number of tasks on the calendar for each day, providing an overview of their upcoming workload.
+
 ### Test User Access
 For visitors who prefer not to sign up immediately, the Kerem Board project offers a test user option. This allows potential users to explore the application's features and interface without the commitment of registration.
 
