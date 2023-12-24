@@ -119,6 +119,8 @@ const AddNewTask: React.FC<{
                 handleTaskCounts('increment', date.toISOString());
                 closeModule();
             } catch (error: any) {
+                const updatedTasks = tasks.map(task1 => (task1._id === task._id ? { ...task1, loading: false } : task1));
+                dispatch(setTasks(updatedTasks));
                 if (error.response.status === 429) {
                     customToast('Too many requests. Please try again later.', 'error');
                     return;
