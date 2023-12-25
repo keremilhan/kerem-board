@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import Wrapper from '../assets/wrappers/Navbar';
 import Logo from './Logo';
 import Button from './Button';

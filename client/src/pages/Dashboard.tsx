@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect, useState } from 'react';
 import Wrapper from '../assets/wrappers/Dashboard';
 import Navbar from '../components/Navbar';
 import { AiTwotoneCalendar } from 'react-icons/ai';
