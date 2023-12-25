@@ -34,7 +34,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build",
+        "build": "react-scripts build && eslint . --config .eslintrc.json",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
@@ -42,18 +42,6 @@
         "extends": [
             "react-app",
             "react-app/jest"
-        ],
-        "overrides": [
-            {
-                "files": [
-                    "**/*.test.js",
-                    "**/*.test.ts",
-                    "**/*.test.tsx"
-                ],
-                "env": {
-                    "jest": true
-                }
-            }
         ]
     },
     "browserslist": {
