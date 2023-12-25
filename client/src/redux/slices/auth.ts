@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { addUserToLocalStorage, removeUserFromLocalStorage, getUserFromLocalStorage } from '../../utils/localStorage';
 import { RootState } from '../store';
 import { clearTasks } from './tasks';
-import { useDispatch } from 'react-redux';
 
 export interface AuthState {
     isAuthenticated: boolean;

@@ -1,4 +1,5 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/Landing';
 import Navbar from '../components/Navbar';

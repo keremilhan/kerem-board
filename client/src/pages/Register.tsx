@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useCallback, useEffect, useState } from 'react';
 import Wrapper from '../assets/wrappers/Register';
 import Navbar from '../components/Navbar';
