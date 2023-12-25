@@ -35,7 +35,8 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build",
+        "build": "react-scripts build && npm run lint-deploy",
+        "lint-deploy": "eslint . --no-verify",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
