@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import { SubTask, Task } from '../types/common';
 import Wrapper from '../assets/wrappers/TaskCard';
