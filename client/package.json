@@ -12,6 +12,7 @@
         "@types/node": "^16.18.11",
         "@types/react": "^18.0.27",
         "@types/react-dom": "^18.0.10",
+        "@typescript-eslint/eslint-plugin": "^6.16.0",
         "@typescript-eslint/parser": "^5.48.2",
         "axios": "^1.2.6",
         "date-fns": "^2.29.3",
@@ -32,26 +33,9 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build",
+        "build": "react-scripts build && npx eslint . --config .eslintrc.json",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
-    },
-    "eslintConfig": {
-        "extends": [
-            "react-app"
-        ],
-        "overrides": [
-            {
-                "files": [
-                    "**/*.test.js",
-                    "**/*.test.ts",
-                    "**/*.test.tsx"
-                ],
-                "env": {
-                    "jest": true
-                }
-            }
-        ]
     },
     "browserslist": {
         "production": [
@@ -69,8 +53,8 @@
         "@types/react-beautiful-dnd": "^13.1.4",
         "@types/react-date-range": "^1.4.4",
         "@types/styled-components": "^5.1.26",
-        "eslint": "^8.56.0",
+        "eslint": "^7.32.0",
         "fork-ts-checker-webpack-plugin": "^9.0.2",
-        "typescript": "^3.3.1"
+        "typescript": "^4.4.3"
     }
 }
