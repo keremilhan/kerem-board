@@ -28,7 +28,8 @@ jobs:
               run: |
                   echo "Current directory: $(pwd)"
                   echo "Contents of the 'client' directory: $(ls -l ./client)"
-                  echo "Contents of the 'client/build/static' directory: $(ls -l ./client/build/static)"
+                  echo "Contents of the 'client/build/static/css' directory: $(ls -l ./client/build/static/css)"
+                  echo "Contents of the 'client/build/static/js' directory: $(ls -l ./client/build/static/js)"
 
             - name: Deploy to Render
               run: |
