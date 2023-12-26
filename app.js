@@ -29,7 +29,7 @@ const limiter = rateLimit({
 app.set('trust proxy', 1);
 
 app.use(cors(['https://kerem-board-app.onrender.com']));
-app.use(express.static(path.resolve(__dirname, './client/build')));
+app.use(express.static(path.resolve(__dirname, '/client/build')));
 app.use(express.json());
 app.use(helmet());
 app.use(xss());
