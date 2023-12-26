@@ -34,5 +34,5 @@ jobs:
               run: |
                   curl -X POST -H "Authorization: Bearer ${{ secrets.RENDER_TOKEN }}" \
                        -H "Content-Type: application/json" \
-                       -d '{"buildCommand": "cd ./client && npm run build", "startCommand": "cd .. && npm start"}' \
+                       -d '{"buildCommand": "cd ./client && npm run build", "startCommand": "cd .. && npm start", "staticFiles": {"content-type": "text/css,application/javascript"}}' \
                        https://api.render.com/deploy/srv-cm2dsn8cmk4c73e16shg?key=S77VF2H9tWc
