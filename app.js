@@ -38,12 +38,6 @@ app.use('/static/js', (req, res, next) => {
     next();
 });
 
-app.use((req, res, next) => {
-    console.log('Request URL:', req.url);
-    console.log('Request Headers:', req.headers);
-    next();
-});
-
 app.use(cors(['https://kerem-board-app.onrender.com']));
 app.use(express.static(path.resolve(__dirname, './client/build')));
 app.use(express.json());

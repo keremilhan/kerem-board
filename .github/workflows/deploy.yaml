@@ -1,0 +1,25 @@
+name: Deploy to Render
+on:
+    push:
+        branches:
+            - main
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+            - name: Set up Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 20.9.0
+            - name: Install Dependencies
+              run: npm install && cd ./client && npm install
+            - name: Build
+              run: cd ./client && npm run build
+            - name: Deploy to Render
+              run: |
+                  curl -X POST -H "Authorization: Bearer ${{ secrets.RENDER_TOKEN }}" \
+                       -H "Content-Type: application/json" \
+                       -d '{"buildCommand": "cd ./client && npm run build", "startCommand": "cd .. && npm start"}' \
+                       https://api.render.com/deploy/srv-cm2dsn8cmk4c73e16shg?key=S77VF2H9tWc
